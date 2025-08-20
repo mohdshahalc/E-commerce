@@ -11,6 +11,7 @@ import Cart from './Component/Cart/Cart'
 import Signin from './Component/SignIn&SignUp/Signin'
 import Footer from './Component/Home/Footer'
 import Signup from './Component/SignIn&SignUp/Signup'
+import Products from './Component/Products/Products'
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path='' element={<Home/>} />
         <Route path='account' element={<Account/>} />
         <Route path='cart' element={<Cart/>} />
+        <Route path='shop' element={<Products />} />
         <Route path='signin' element={<Signin/>} />
         <Route path='signup' element={<Signup />}/>
       </Routes>

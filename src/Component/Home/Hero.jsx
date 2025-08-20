@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 function Hero() {
   return (
@@ -11,9 +12,9 @@ function Hero() {
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white bg-black/40 space-y-4">
         <h1 className="text-7xl font-bold font-['Cormorant_Garamond']">Luxury Home</h1>
         <p className="text-xl font-['Cormorant_Garamond']">Discover premium collections at the best price</p>
-        <button className="bg-white text-black px-6 py-2 rounded-lg transform transition duration-300 hover:scale-105 hover:bg-gray-300">
+        <NavLink to='/shop' className="bg-white text-black px-6 py-2 rounded-lg transform transition duration-300 hover:scale-105 hover:bg-gray-300">
          Explore the collections
-        </button>
+        </NavLink>
 
       </div>
     </div>

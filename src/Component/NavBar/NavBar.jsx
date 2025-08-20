@@ -17,7 +17,7 @@ function NavBar() {
       
         <div className="hidden md:flex items-center ml-40 gap-6">
           <NavLink to="/" className="hover:text-green-400">Home</NavLink>
-          <NavLink className="hover:text-green-400">Shop</NavLink>
+          <NavLink to='/shop' className="hover:text-green-400">Shop</NavLink>
           <NavLink to="/account" className="hover:text-green-400">Account</NavLink>
         </div>
 
