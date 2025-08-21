@@ -10,6 +10,11 @@ function Cart() {
   const data = location.state?.data || null;
 
   useEffect(() => {
+  const stored = JSON.parse(localStorage.getItem("cartItem")) || [];
+  setItems(stored);
+}, []);
+
+  useEffect(() => {
   if (data) {
     const stored = JSON.parse(localStorage.getItem("cartItem")) || [];
     const exists = stored.some((item) => item.id === data.id);
