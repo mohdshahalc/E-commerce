@@ -10,14 +10,18 @@ function ProductDetails() {
     fetch(`https://furniture-api.fly.dev/v1/products?limit=20`)
       .then(response => response.json())
       .then(res => {
-        const item = res.data.find((search) => String(search.id) === String(pID));
+        const item = res.data.find((search) => search.id === pID)
         setData(item);
       })
       .catch(error => console.error('Error:', error));
   }, [pID]);
 
   if (!data) {
-    return <p className="p-6 text-gray-500">Loading product...</p>;
+    return (<div className="flex items-center justify-center h-screen bg-gray-50">
+      <p className="text-lg font-medium text-gray-500 animate-pulse">
+        Loading product...
+      </p>
+    </div>)
   }
 
   return (
@@ -68,7 +72,7 @@ function ProductDetails() {
 
           {/* Buttons */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4">
-            <button className="flex-1 px-6 py-3 text-lg font-medium text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition">
+            <button onClick={()=>navigate(`/cart`,{state:{data:data}})} className="flex-1 px-6 py-3 text-lg font-medium text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition">
               Add to Cart
             </button>
             <button className="flex-1 px-6 py-3 text-lg font-medium text-indigo-600 border border-indigo-600 rounded-xl hover:bg-indigo-50 transition">
