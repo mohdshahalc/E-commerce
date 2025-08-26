@@ -3,7 +3,10 @@ import { NavLink } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { toast, ToastContainer } from "react-toastify";
+
+import swal from 'sweetalert';
+
+
 
 
 const schema = Yup.object({
@@ -25,7 +28,7 @@ function Signup() {
     Setusers(update)
     localStorage.setItem("users",JSON.stringify(update))
     reset();
-    toast.success("Registered Successfully ✅");
+   swal("Welcome to Nestro!", "You registered successfully!", "success");
   }
   console.log(users);
   
