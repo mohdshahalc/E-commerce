@@ -5,13 +5,18 @@ import { MdDeleteOutline } from "react-icons/md";
 function Cart() {
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(1);
+  
   const location = useLocation();
 
+
   const data = location.state?.data || null;
+  console.log(location);
+  
 
   useEffect(() => {
   const stored = JSON.parse(localStorage.getItem("cartItem")) || [];
   setItems(stored);
+  
 }, []);
 
   useEffect(() => {
@@ -28,6 +33,13 @@ function Cart() {
     }
   }
 }, [data]);
+
+const deleteItem=(id)=>{
+   const store=JSON.parse(localStorage.getItem("cartItem")) || []
+    const update=store.filter((item)=>item.id !== id)
+    localStorage.setItem("cartItem",JSON.stringify(update));
+    setItems(update)
+}
 
 
   return (
@@ -65,7 +77,7 @@ function Cart() {
 
                   <p className="font-medium text-gray-800 text-sm sm:text-base">${item.price * count}</p>
 
-                  <button className="sm:ml-auto"><MdDeleteOutline className="text-red-500 w-6 h-6 hover:text-red-700" /></button>
+                  <button onClick={()=>deleteItem(item.id)} className="sm:ml-auto"><MdDeleteOutline className="text-red-500 w-6 h-6 hover:text-red-700" /></button>
 
                   <div className="flex justify-between text-xs sm:text-sm text-green-600 font-medium gap-2 sm:gap-4">
                     <span>You Saved</span>

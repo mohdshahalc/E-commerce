@@ -75,7 +75,7 @@ function ProductDetails() {
             <button onClick={()=>navigate(`/cart`,{state:{data:data}})} className="flex-1 px-6 py-3 text-lg font-medium text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition">
               Add to Cart
             </button>
-            <button className="flex-1 px-6 py-3 text-lg font-medium text-indigo-600 border border-indigo-600 rounded-xl hover:bg-indigo-50 transition">
+            <button onClick={()=>navigate(`/wishlist`,{state:{data:data}})} className="flex-1 px-6 py-3 text-lg font-medium text-indigo-600 border border-indigo-600 rounded-xl hover:bg-indigo-50 transition">
               Wishlist
             </button>
           </div>

@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 
 function Signin() {
+
+  useEffect(()=>{
+    const users=localStorage.getItem("users")
+    console.log(users);
+    
+  })
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
       
