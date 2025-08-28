@@ -6,38 +6,24 @@ function Cart() {
   const [items, setItems] = useState([]);
   const [count, setCount] = useState(1);
   
-  const location = useLocation();
-
-
-  const data = location.state?.data || null;
-  console.log(location);
+  
   
 
   useEffect(() => {
-  const stored = JSON.parse(localStorage.getItem("cartItem")) || [];
-  setItems(stored);
+  const stored = JSON.parse(localStorage.getItem("logined")) || [];
+  
+  console.log(stored.cart);
+  setItems(stored.cart);
   
 }, []);
 
-  useEffect(() => {
-  if (data) {
-    const stored = JSON.parse(localStorage.getItem("cartItem")) || [];
-    const exists = stored.some((item) => item.id === data.id);
-    if (!exists) {
-      const updated = [...stored, data];
-      localStorage.setItem("cartItem", JSON.stringify(updated));
-      setItems(updated);
-    }
-    else {
-      setItems(stored);
-    }
-  }
-}, [data]);
+
 
 const deleteItem=(id)=>{
-   const store=JSON.parse(localStorage.getItem("cartItem")) || []
-    const update=store.filter((item)=>item.id !== id)
-    localStorage.setItem("cartItem",JSON.stringify(update));
+   const store=JSON.parse(localStorage.getItem("logined")) || []
+    const update=store.cart.filter((item)=>item.id !== id)
+    localStorage.setItem("logined",JSON.stringify(update));
+    // localStorage.setItem("users",JSON.stringify(update));
     setItems(update)
 }
 

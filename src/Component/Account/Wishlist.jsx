@@ -4,33 +4,26 @@ import { useLocation,NavLink, useNavigate } from 'react-router-dom'
 function Wishlist() {
   const [items,setItems]=useState([])
     const navigate=useNavigate()
-    const location=useLocation()
-    const data=location.state?.data
+    
 
-    useEffect(()=>{
-     const data=JSON.parse(localStorage.getItem("wishlist")) || []
-     setItems(data)
+    // useEffect(()=>{
+    //  const data=JSON.parse(localStorage.getItem("wishlist")) || []
+    //  setItems(data)
+    // },[])
+
+    useEffect(()=>{   
+       const stored=JSON.parse(localStorage.getItem("logined")) || []
+        setItems(stored.wishlist)
+        console.log(stored);
+        
+        console.log(items);
+        
     },[])
 
-    useEffect(()=>{
-      if(data){
-       const stored=JSON.parse(localStorage.getItem("wishlist")) || []
-       const exsits=stored.some((item)=> item.id===data.id)
-       if(!exsits){
-        const updated=[...stored,data]
-        localStorage.setItem("wishlist",JSON.stringify(updated))
-        setItems(updated)
-       }
-        else{
-           setItems(stored)
-        }
-      }
-    },[data])
-
     const deleteItem=(id)=>{
-    const store=JSON.parse(localStorage.getItem("wishlist")) || []
-     const update=store.filter((item)=>item.id !== id)
-     localStorage.setItem("wishlist",JSON.stringify(update))
+    const store=JSON.parse(localStorage.getItem("logined")) || []
+     const update=store.wishlist.filter((item)=>item.id !== id)
+     localStorage.setItem("logined",JSON.stringify(update))
      setItems(update)
     }
     

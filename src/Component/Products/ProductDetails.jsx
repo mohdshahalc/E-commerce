@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 
 function ProductDetails() {
   const [data, setData] = useState(null);
@@ -7,7 +8,7 @@ function ProductDetails() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://furniture-api.fly.dev/v1/products?limit=20`)
+    fetch(`https://furniture-api.fly.dev/v1/products?limit=10`)
       .then(response => response.json())
       .then(res => {
         const item = res.data.find((search) => search.id === pID)
@@ -16,13 +17,49 @@ function ProductDetails() {
       .catch(error => console.error('Error:', error));
   }, [pID]);
 
+  const handleCart=(data)=>{
+      const loginUser=JSON.parse(localStorage.getItem("logined")) 
+    if(!loginUser){
+       swal("Oops!", "You can’t add this item without logging in.", {buttons: ["No", "Login"],})
+       .then((yes)=>{
+     if (yes) {
+      navigate("/signin");
+    }}) 
+  return;  }
+  const exits=loginUser.cart.some((item)=>item.id==data.id)
+  if(!exits){
+    loginUser.cart.push(data)
+  localStorage.setItem("logined",JSON.stringify(loginUser))
+  const users=JSON.parse(localStorage.getItem("users"))
+  const update=users.map((item)=>item.password==loginUser.password?loginUser:item)
+  localStorage.setItem("users",JSON.stringify(update))
+ }}
+
+  const wishlist=(data)=>{
+   const loginUser=JSON.parse(localStorage.getItem("logined"))
+   if(!loginUser){
+       swal("Oops!", "You can’t add this item without logging in.", {buttons: ["No", "Login"],})
+       .then((yes)=>{
+     if (yes) {
+      navigate("/signin");
+    }}) 
+  return;  }
+    const exits=loginUser.wishlist.some((item)=>item.id===data.id)
+    if(!exits){
+      loginUser.wishlist.push(data)
+      localStorage.setItem("logined",JSON.stringify(loginUser))
+      const users=JSON.parse(localStorage.getItem("users"))
+      const update=users.map((user)=>user.password==loginUser.password?loginUser:user)
+      localStorage.setItem("users",JSON.stringify(update))
+    }
+
+  }
+
+
   if (!data) {
     return (<div className="flex items-center justify-center h-screen bg-gray-50">
-      <p className="text-lg font-medium text-gray-500 animate-pulse">
-        Loading product...
-      </p>
-    </div>)
-  }
+      <p className="text-lg font-medium text-gray-500 animate-pulse"> Loading product... </p>
+    </div>)}
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -72,10 +109,10 @@ function ProductDetails() {
 
           {/* Buttons */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4">
-            <button onClick={()=>navigate(`/cart`,{state:{data:data}})} className="flex-1 px-6 py-3 text-lg font-medium text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition">
+            <button onClick={()=>handleCart(data)} className="flex-1 px-6 py-3 text-lg font-medium text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition">
               Add to Cart
             </button>
-            <button onClick={()=>navigate(`/wishlist`,{state:{data:data}})} className="flex-1 px-6 py-3 text-lg font-medium text-indigo-600 border border-indigo-600 rounded-xl hover:bg-indigo-50 transition">
+            <button onClick={()=>wishlist(data)} className="flex-1 px-6 py-3 text-lg font-medium text-indigo-600 border border-indigo-600 rounded-xl hover:bg-indigo-50 transition">
               Wishlist
             </button>
           </div>

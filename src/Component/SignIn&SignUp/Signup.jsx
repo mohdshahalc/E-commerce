@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -19,18 +19,31 @@ const schema = Yup.object({
 
 
 function Signup() {
-  const [users,Setusers]=useState([])
+
   const {handleSubmit,register,formState:{errors},reset}=useForm({resolver:yupResolver(schema),criteriaMode: "firstError"   })
+  const [users,Setusers]=useState([])
+  const navigate=useNavigate()
   
   const onsubmit=(data)=>{
+    const setCart={...data,cart:[],wishlist:[]}
+    // console.log(setCart);
+    
     const User=JSON.parse(localStorage.getItem("users")) || []
-    const update=[...User,data]
+    const update=[...User,setCart]
     Setusers(update)
     localStorage.setItem("users",JSON.stringify(update))
     reset();
-   swal("Welcome to Nestro!", "You registered successfully!", "success");
+    swal({
+      title:"Welcome to Nestro!",
+      text:"You registered successfully!",
+      icon:"success",
+      button:"ok"
+    }).then(()=>{
+      navigate("/signin")
+    })
+  
   }
-  console.log(users);
+  // console.log(users);
   
   
   return (
