@@ -3,16 +3,10 @@ import { useLocation,NavLink, useNavigate } from 'react-router-dom'
 
 function Wishlist() {
   const [items,setItems]=useState([])
-    const navigate=useNavigate()
     
-
-    // useEffect(()=>{
-    //  const data=JSON.parse(localStorage.getItem("wishlist")) || []
-    //  setItems(data)
-    // },[])
-
+  
     useEffect(()=>{   
-       const stored=JSON.parse(localStorage.getItem("logined")) || []
+       const stored=JSON.parse(localStorage.getItem("logined")) ||  { wishlist: [] }
         setItems(stored.wishlist)
         console.log(stored);
         

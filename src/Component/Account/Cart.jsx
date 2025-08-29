@@ -10,7 +10,7 @@ function Cart() {
   
 
   useEffect(() => {
-  const stored = JSON.parse(localStorage.getItem("logined")) || [];
+  const stored = JSON.parse(localStorage.getItem("logined")) || { cart: [] };
   
   console.log(stored.cart);
   setItems(stored.cart);

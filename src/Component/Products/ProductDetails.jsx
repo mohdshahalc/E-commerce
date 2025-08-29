@@ -6,6 +6,7 @@ function ProductDetails() {
   const [data, setData] = useState(null);
   const { pID } = useParams();
   const navigate = useNavigate();
+ 
 
   useEffect(() => {
     fetch(`https://furniture-api.fly.dev/v1/products?limit=10`)
@@ -16,6 +17,9 @@ function ProductDetails() {
       })
       .catch(error => console.error('Error:', error));
   }, [pID]);
+
+  const loginUser=JSON.parse(localStorage.getItem("logined")) 
+  const cartButton=loginUser && data?loginUser.cart?.some((item)=>item.id==data.id):false
 
   const handleCart=(data)=>{
       const loginUser=JSON.parse(localStorage.getItem("logined")) 
@@ -33,9 +37,9 @@ function ProductDetails() {
   const users=JSON.parse(localStorage.getItem("users"))
   const update=users.map((item)=>item.password==loginUser.password?loginUser:item)
   localStorage.setItem("users",JSON.stringify(update))
- }}
+  swal({text: "Item added to cart!",icon: "success",buttons: false,timer: 2500})}}
 
-  const wishlist=(data)=>{
+  const handleWishlist=(data)=>{
    const loginUser=JSON.parse(localStorage.getItem("logined"))
    if(!loginUser){
        swal("Oops!", "You can’t add this item without logging in.", {buttons: ["No", "Login"],})
@@ -43,6 +47,10 @@ function ProductDetails() {
      if (yes) {
       navigate("/signin");
     }}) 
+   
+
+   
+
   return;  }
     const exits=loginUser.wishlist.some((item)=>item.id===data.id)
     if(!exits){
@@ -51,9 +59,7 @@ function ProductDetails() {
       const users=JSON.parse(localStorage.getItem("users"))
       const update=users.map((user)=>user.password==loginUser.password?loginUser:user)
       localStorage.setItem("users",JSON.stringify(update))
-    }
-
-  }
+        swal({text: "Item added to wishlist!",icon: "success",buttons: false,timer: 2500})}}
 
 
   if (!data) {
@@ -109,8 +115,8 @@ function ProductDetails() {
 
           {/* Buttons */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4">
-            <button onClick={()=>handleCart(data)} className="flex-1 px-6 py-3 text-lg font-medium text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition">
-              Add to Cart
+            <button onClick={()=>{cartButton?navigate('/cart'):handleCart(data)}} className="flex-1 px-6 py-3 text-lg font-medium text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition">
+             {cartButton?"Go to Cart":" Add to Cart"}
             </button>
             <button onClick={()=>wishlist(data)} className="flex-1 px-6 py-3 text-lg font-medium text-indigo-600 border border-indigo-600 rounded-xl hover:bg-indigo-50 transition">
               Wishlist

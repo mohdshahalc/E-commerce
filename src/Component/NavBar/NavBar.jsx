@@ -15,7 +15,6 @@ function NavBar() {
   useEffect(()=>{
    const user=JSON.parse(localStorage.getItem("logined"))
   
-  
    if(user){
     setUserCheck(true)
     setUserName(user.name)
