@@ -30,6 +30,7 @@ const handleSignOut=()=>{
       icon: "success",buttons:false,timer:1000});
      localStorage.removeItem("logined")
      setLoged(false)
+     window.location.reload();
   }
 });  
 }

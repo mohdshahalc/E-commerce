@@ -11,7 +11,7 @@ const schema=Yup.object({
 })
 
 function Signin() {
-  const[user,setUser]=useState()
+  // const[user,setUser]=useState()
   const navigate=useNavigate()
 
   const {handleSubmit,register,formState:{errors}}=useForm({resolver:yupResolver(schema)})

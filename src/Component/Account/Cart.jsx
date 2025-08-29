@@ -11,7 +11,6 @@ function Cart() {
 
   useEffect(() => {
   const stored = JSON.parse(localStorage.getItem("logined")) || { cart: [] };
-  
   console.log(stored.cart);
   setItems(stored.cart);
   
@@ -21,10 +20,16 @@ function Cart() {
 
 const deleteItem=(id)=>{
    const store=JSON.parse(localStorage.getItem("logined")) || []
-    const update=store.cart.filter((item)=>item.id !== id)
-    localStorage.setItem("logined",JSON.stringify(update));
-    // localStorage.setItem("users",JSON.stringify(update));
-    setItems(update)
+    const updated=store.cart.filter((item)=>item.id !== id)
+    store.cart=updated
+    console.log(store);
+       setItems(store.cart)
+    localStorage.setItem("logined",JSON.stringify(store));
+     const users = JSON.parse(localStorage.getItem("users")) || [];
+  const updatedUsers = users.map((users) =>
+    users.username === store.username ? store : users);
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+ 
 }
 
 

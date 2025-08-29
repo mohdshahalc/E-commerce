@@ -6,6 +6,7 @@ function ProductDetails() {
   const [data, setData] = useState(null);
   const { pID } = useParams();
   const navigate = useNavigate();
+  const [, usingRerender] = useState(0);
  
 
   useEffect(() => {
@@ -34,9 +35,10 @@ function ProductDetails() {
   if(!exits){
     loginUser.cart.push(data)
   localStorage.setItem("logined",JSON.stringify(loginUser))
-  const users=JSON.parse(localStorage.getItem("users"))
+  const users=JSON.parse(localStorage.getItem("users")) 
   const update=users.map((item)=>item.password==loginUser.password?loginUser:item)
   localStorage.setItem("users",JSON.stringify(update))
+    usingRerender(1);
   swal({text: "Item added to cart!",icon: "success",buttons: false,timer: 2500})}}
 
   const handleWishlist=(data)=>{
@@ -46,11 +48,7 @@ function ProductDetails() {
        .then((yes)=>{
      if (yes) {
       navigate("/signin");
-    }}) 
-   
-
-   
-
+    }})
   return;  }
     const exits=loginUser.wishlist.some((item)=>item.id===data.id)
     if(!exits){
