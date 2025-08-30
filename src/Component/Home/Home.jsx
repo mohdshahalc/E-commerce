@@ -45,24 +45,34 @@ function Home() {
 </div>
 
 
-        <div className="absolute inset-0 flex flex-col items-start justify-center text-left pl-15 text-black">
-     <h2 className="text-5xl text-white md:text-6xl font-bold mb-4 drop-shadow-lg tracking-wide font-['Cormorant_Garamond']">
-     Living Room</h2>
+     <div
+  className="absolute inset-0 flex flex-col 
+             justify-center items-center 
+             sm:items-start sm:justify-center 
+             text-center sm:text-left 
+             px-4 sm:pl-15"
+>
+  <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-2 sm:mb-4 
+                 text-white drop-shadow-lg tracking-wide font-['Cormorant_Garamond']">
+    Living Room
+  </h2>
 
-    <p className="mb-6 max-w-md text-lg md:text-xl text-gray-200 leading-relaxed drop-shadow font-['Cormorant_Garamond']">
+  <p className="mb-4 sm:mb-6 max-w-xs sm:max-w-md text-sm sm:text-lg md:text-xl 
+                text-gray-200 leading-relaxed drop-shadow font-['Cormorant_Garamond']">
     Transform your living room into a sanctuary of style and warmth. 
     Discover timeless furniture and curated décor designed to inspire 
-    comfort and sophistication in every corner of your home.</p>
+    comfort and sophistication in every corner of your home.
+  </p>
 
-          <button onClick={()=>navigate('/products')} className="bg-white text-black px-6 py-2 rounded-lg transform transition duration-300 hover:scale-105 hover:bg-gray-300">
-             Explore Collections
-   
-          </button>
-          
+  <button
+    onClick={() => navigate('/products')}
+    className="bg-white text-black px-4 py-2 sm:px-6 sm:py-2 rounded-lg 
+               transform transition duration-300 hover:scale-105 hover:bg-gray-300 text-sm sm:text-base">
+    Explore Collections
+  </button>
+</div>
 
 
-
-        </div>
       </div>
 
 
