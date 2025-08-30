@@ -25,7 +25,7 @@ function Signup() {
   const navigate=useNavigate()
   
   const onsubmit=(data)=>{
-    const setCart={...data,cart:[],wishlist:[]}
+    const setCart={...data,cart:[],wishlist:[],order:[]}
     // console.log(setCart);
     
     const User=JSON.parse(localStorage.getItem("users")) || []

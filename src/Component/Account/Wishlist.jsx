@@ -1,16 +1,17 @@
+import { User } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useLocation,NavLink, useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 function Wishlist() {
   const [items,setItems]=useState([])
+  const [cartButton,setCartButton]=useState(false)
+  const navigate=useNavigate()
     
   
     useEffect(()=>{   
        const stored=JSON.parse(localStorage.getItem("logined")) ||  { wishlist: [] }
         setItems(stored.wishlist)
-        console.log(stored);
-        
-        console.log(items);
         
     },[])
 
@@ -18,7 +19,69 @@ function Wishlist() {
     const store=JSON.parse(localStorage.getItem("logined")) || []
      const update=store.wishlist.filter((item)=>item.id !== id)
      localStorage.setItem("logined",JSON.stringify(update))
-     setItems(update)
+     store.wishlist=update
+     setItems(store.wishlist)
+     localStorage.setItem("logined",JSON.stringify(store))
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+     const updatedUsers = users.map((users) => users.username === store.username ? store : users);
+         localStorage.setItem("users", JSON.stringify(updatedUsers));
+         Swal.fire({
+          text: "Item removed",
+          icon: "warning",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          showClass: {
+            popup: 'animate__animated animate__fadeInRight'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutRight'
+          }
+        });
+    }
+
+    const handleCart=(data)=>{
+     const store=JSON.parse(localStorage.getItem("logined"))
+      const update = store.cart.find((item) => item.id === data.id);
+      setCartButton(true)
+      if(!update){
+        store.cart.push(data)
+        localStorage.setItem("logined",JSON.stringify(store))
+        Swal.fire({
+          text: "Item added to cart!",
+          icon: "success",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          showClass: {
+            popup: 'animate__animated animate__fadeInRight'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutRight'
+          }
+        });
+        return
+      }
+       Swal.fire({
+          text: "Item already in cart!",
+          icon: "success",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          showClass: {
+            popup: 'animate__animated animate__fadeInRight'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutRight'
+          }
+        })
+
     }
     
   return (
@@ -67,8 +130,8 @@ function Wishlist() {
       </div>
 
       <div className="flex justify-center sm:justify-end gap-3 sm:gap-6">
-        <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 sm:px-6 sm:py-2 rounded-md transition-colors text-sm sm:text-base">
-          Add to cart
+        <button onClick={()=>{cartButton?navigate('/cart'):handleCart(item)}} className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 sm:px-6 sm:py-2 rounded-md transition-colors text-sm sm:text-base">
+         {cartButton?"View cart":"Add to cart"} 
         </button>
         <button onClick={()=>deleteItem(item.id)} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 sm:px-6 sm:py-2 rounded-md transition-colors text-sm sm:text-base">
           Remove

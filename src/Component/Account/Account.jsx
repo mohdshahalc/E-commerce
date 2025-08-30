@@ -2,7 +2,12 @@ import { Timer } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { MdAccountCircle } from "react-icons/md";
 import { NavLink, useNavigate } from 'react-router-dom';
-import swal from 'sweetalert';
+import { MdEmail } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
+
+
+import Swal from 'sweetalert2';
 
 function Account() {
   const [loged,setLoged]=useState(false)
@@ -18,21 +23,28 @@ useEffect(()=>{
   }},[])
 
 const handleSignOut=()=>{
-  swal({
+  Swal.fire({
   title: "Are you sure?",
-  text: " Are you sure you want to log out?",
+  text: "Are you sure you want to log out?",
   icon: "warning",
-  buttons: true,
-  dangerMode: true,})
-.then((willDelete) => {
-  if (willDelete) {
-    swal(" You have been logged out successfully. See you soon!", {
-      icon: "success",buttons:false,timer:1000});
-     localStorage.removeItem("logined")
-     setLoged(false)
-     window.location.reload();
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, log out!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+      title: "Logged out!",
+      text: "You have been logged out successfully. See you soon!",
+      icon: "success",
+      showConfirmButton: false,  
+      timer: 2000 });
+      localStorage.removeItem("logined")
+      setLoged(false)
+       window.location.reload();
   }
-});  
+});
+
 }
 
   return (
@@ -48,8 +60,8 @@ const handleSignOut=()=>{
 
    
     <div className="grid grid-cols-2 gap-6">
-      <div className="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition">
-        <p className="text-2xl font-bold text-gray-800">12</p>
+      <div className="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition" onClick={()=>navigate('vieworder')}>
+        <p className="text-2xl font-bold text-gray-800">{user.order.length}</p>
         <p className="text-gray-600">View Orders</p>
       </div>
       <div className="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition" onClick={()=>navigate('/cart')}>
@@ -68,13 +80,22 @@ const handleSignOut=()=>{
 
     
     <div className="space-y-3 text-left">
-      <p className="text-gray-700">
-        <span className="font-semibold">Email:</span> {user.email}
-      </p>
-      <p className="text-gray-700">
-        <span className="font-semibold">Phone:</span> {user.phone}
-      </p>
-    </div>
+  <p className="flex items-center text-gray-700">
+    <MdEmail className="text-blue-500 mr-2 text-lg" />
+    <span className="font-semibold mr-1">Email:</span> {user.email}
+  </p>
+
+  <p className="flex items-center text-gray-700">
+    <FaPhoneAlt className="text-green-500 mr-2 text-lg" />
+    <span className="font-semibold mr-1">Phone:</span> {user.phone}
+  </p>
+
+  <p className="flex items-center text-gray-700">
+    <FaHome className="text-red-500 mr-2 text-lg" />
+    <span className="font-semibold mr-1">Address:addAddress</span> {user.address}
+  </p>
+</div>
+
 
     
     <div>

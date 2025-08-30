@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import swal from 'sweetalert';
+
+import Swal from "sweetalert2";
+import "animate.css";
+
 
 function ProductDetails() {
   const [data, setData] = useState(null);
@@ -21,15 +24,24 @@ function ProductDetails() {
 
   const loginUser=JSON.parse(localStorage.getItem("logined")) 
   const cartButton=loginUser && data?loginUser.cart?.some((item)=>item.id==data.id):false
+  const wishListButton=loginUser && data?loginUser.wishlist?.some((item)=>item.id==data.id):false
 
   const handleCart=(data)=>{
       const loginUser=JSON.parse(localStorage.getItem("logined")) 
     if(!loginUser){
-       swal("Oops!", "You can’t add this item without logging in.", {buttons: ["No", "Login"],})
-       .then((yes)=>{
-     if (yes) {
-      navigate("/signin");
-    }}) 
+      Swal.fire({
+  title: "Oops!",
+  text: "You can’t add this item without logging in.",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonText: "Login",
+  cancelButtonText: "No"
+}).then((result) => {
+  if (result.isConfirmed) {
+    navigate("/signin");
+  }
+});
+
   return;  }
   const exits=loginUser.cart.some((item)=>item.id==data.id)
   if(!exits){
@@ -39,16 +51,38 @@ function ProductDetails() {
   const update=users.map((item)=>item.password==loginUser.password?loginUser:item)
   localStorage.setItem("users",JSON.stringify(update))
     usingRerender(1);
-  swal({text: "Item added to cart!",icon: "success",buttons: false,timer: 2500})}}
+  Swal.fire({
+  text: "Item added to wishlist!",
+  icon: "success",
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true,
+  showClass: {
+    popup: 'animate__animated animate__fadeInRight'
+  },
+  hideClass: {
+    popup: 'animate__animated animate__fadeOutRight'
+  }
+});
+}}
 
   const handleWishlist=(data)=>{
    const loginUser=JSON.parse(localStorage.getItem("logined"))
    if(!loginUser){
-       swal("Oops!", "You can’t add this item without logging in.", {buttons: ["No", "Login"],})
-       .then((yes)=>{
-     if (yes) {
-      navigate("/signin");
-    }})
+        Swal.fire({
+  title: "Oops!",
+  text: "You can’t add this item without logging in.",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonText: "Login",
+  cancelButtonText: "No"
+}).then((result) => {
+  if (result.isConfirmed) {
+    navigate("/signin");
+  }
+});
   return;  }
     const exits=loginUser.wishlist.some((item)=>item.id===data.id)
     if(!exits){
@@ -57,7 +91,26 @@ function ProductDetails() {
       const users=JSON.parse(localStorage.getItem("users"))
       const update=users.map((user)=>user.password==loginUser.password?loginUser:user)
       localStorage.setItem("users",JSON.stringify(update))
-        swal({text: "Item added to wishlist!",icon: "success",buttons: false,timer: 2500})}}
+      usingRerender(1);
+     
+Swal.fire({
+  text: "Item added to wishlist!",
+  icon: "success",
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true,
+  showClass: {
+    popup: 'animate__animated animate__fadeInRight'
+  },
+  hideClass: {
+    popup: 'animate__animated animate__fadeOutRight'
+  }
+});
+
+
+}}
 
 
   if (!data) {
@@ -114,10 +167,10 @@ function ProductDetails() {
           {/* Buttons */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4">
             <button onClick={()=>{cartButton?navigate('/cart'):handleCart(data)}} className="flex-1 px-6 py-3 text-lg font-medium text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition">
-             {cartButton?"Go to Cart":" Add to Cart"}
+             {cartButton?"View Cart 🛒":" Add to Cart"}
             </button>
-            <button onClick={()=>wishlist(data)} className="flex-1 px-6 py-3 text-lg font-medium text-indigo-600 border border-indigo-600 rounded-xl hover:bg-indigo-50 transition">
-              Wishlist
+            <button onClick={()=>{wishListButton?navigate('/wishlist'):handleWishlist(data)}} className="flex-1 px-6 py-3 text-lg font-medium text-indigo-600 border border-indigo-600 rounded-xl hover:bg-indigo-50 transition">
+              {wishListButton?"Go to Wishlist":"Wishlist"}
             </button>
           </div>
         </div>

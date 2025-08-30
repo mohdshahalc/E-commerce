@@ -14,6 +14,8 @@ import Products from './Component/Products/Products'
 import ProductDetails from './Component/Products/ProductDetails'
 import Cart from './Component/Account/Cart'
 import Wishlist from './Component/Account/Wishlist'
+import PlaceOrder from './Component/Account/PlaceOrder'
+import Vieworder from './Component/Account/Vieworder'
 
 
 
@@ -36,6 +38,8 @@ function App() {
          <Route path='wishlist' element={<Wishlist />} />
         <Route path='signin' element={<Signin/>} />
         <Route path='signup' element={<Signup />}/>
+        <Route path='cart/orderPlace' element={<PlaceOrder />} />
+        <Route path='account/vieworder' element={<Vieworder />}/>
       </Routes>
 
       {location.pathname !== '/cart' &&  <Footer />}

@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import * as Yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 const schema=Yup.object({
   name:Yup.string().required("Enter user name"),
@@ -29,23 +29,25 @@ function Signin() {
     
     if(update){
       localStorage.setItem("logined",JSON.stringify(update))
-      swal({
-    title: "Login Successful",
-    text: "Welcome back!",
-    icon: "success",
-    buttons: false,   
-    timer: 1500      
-  });
+     Swal.fire({
+  title: "Login Successful",
+  text: "Welcome back!",
+  icon: "success",
+  showConfirmButton: false,
+  timer: 1500
+});
+
   setTimeout(() => {
     navigate('/products')
   }, 1500); }
     else{
-      swal({
+   Swal.fire({
   title: "Error!",
   text: "Invalid username or password",
   icon: "error",
-  button: "Try Again",
-});}}
+  confirmButtonText: "Try Again"
+});
+;}}
 
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
