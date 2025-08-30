@@ -10,14 +10,34 @@ function Cart() {
   
 
   useEffect(() => {
-  const stored = JSON.parse(localStorage.getItem("logined")) || { cart: [] };
+    const stored = JSON.parse(localStorage.getItem("logined")) || { cart: [] };
    const cartWithQuantity = stored.cart.map((item) => ({ ...item, quantity: 1 }));
-  setItems(cartWithQuantity)
+   
+   const updatedStored = { ...stored, cart: cartWithQuantity };
+  localStorage.setItem("logined", JSON.stringify(updatedStored));
+  setItems(cartWithQuantity);
+
 }, []);
 const handleIncrement=(data)=>{
-      setItems((prev)=>prev.map((item)=>item.id==data.id?{...item,quantity:item.quantity+1}:item))}
+      setItems((prev)=>{
+        const update=prev.map((item)=>item.id==data.id?{...item,quantity:item.quantity+1}:item)
+         const stored = JSON.parse(localStorage.getItem("logined")) || {};
+    const updatedStored = { ...stored, cart: update };
+    localStorage.setItem("logined", JSON.stringify(updatedStored))
+    return update
+      })
+    
+  }
+   
+      
 const handleDecrement=(data)=>{
-  setItems((prev)=>prev.map((item)=>item.id==data.id&& data.quantity>1?{...item,quantity:item.quantity-1}:item))
+  setItems((prev)=>{
+    const update=prev.map((item)=>item.id==data.id&& data.quantity>1?{...item,quantity:item.quantity-1}:item)
+    const stored = JSON.parse(localStorage.getItem("logined")) || {};
+    const updatedStored = { ...stored, cart: update };
+    localStorage.setItem("logined", JSON.stringify(updatedStored))
+    return update  
+  })
 }
 
 
@@ -37,8 +57,6 @@ const deleteItem=(id)=>{
 
   return (
     <div className="bg-gray-50 py-6 min-h-screen pb-60 sm:pb-56">
-      {console.log(items.quantity)
-      }
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800">Your Cart </h1>
 
@@ -89,7 +107,6 @@ const deleteItem=(id)=>{
   <div className="fixed bottom-0 left-0 w-full bg-white border-t shadow-lg z-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <h1 className="text-base sm:text-lg font-semibold mb-3 text-gray-800">Summary</h1>
-{console.log(items)}
 
       <div className="flex justify-between text-gray-700 mb-2 text-sm sm:text-base">
         <span>Sub Items</span>
@@ -98,12 +115,12 @@ const deleteItem=(id)=>{
 
       <div className="flex justify-between font-bold text-indigo-600 text-lg sm:text-xl mb-1">
         <span>Final Total</span>
-        <span>${items.reduce((sum, item) => sum + item.discount_price * item.quantity, 0).toFixed(2)}</span>
+        <span>${items.reduce((sum, item) => sum + (item.discount_price * item.quantity), 0).toFixed(2)}</span>
       </div>
 
       <div className="flex justify-between text-green-600 font-medium text-xs sm:text-sm mb-3">
         <span>You Saved</span>
-        <span>${items.reduce((sum, item) => sum + ((item.price - item.discount_price) * (item.quantity || 1)), 0).toFixed(2)}</span>
+        <span>${items.reduce((sum, item) => sum + ((item.price * item.quantity) - (item.quantity * item.discount_price)), 0).toFixed(2)}</span>
       </div>
 
       <button onClick={() => navigate('orderPlace')} className="w-full px-4 sm:px-6 py-2 sm:py-3 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition text-sm sm:text-base">

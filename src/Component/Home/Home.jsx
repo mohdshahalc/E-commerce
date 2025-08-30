@@ -1,22 +1,49 @@
 import React from 'react'
 import Hero from './Hero'
-
+import { useState,useEffect } from 'react';
 import { GiSofa } from "react-icons/gi";
 import { MdOutlineDesignServices } from "react-icons/md";
 import { FaTruckFast } from "react-icons/fa6";
 import { BiSupport } from "react-icons/bi";
+import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
+  const images = [ "/img3.jpg","/img1.jpg", "/img2.jpg"]; 
+  const [index, setIndex] = useState(0);
+  const navigate=useNavigate()
+
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 3000); 
+
+    return () => clearInterval(interval); 
+  }, []);
+
   return (
     <div>
       <Hero />
 
       <div className="max-w-7xl h-[30rem] mx-auto  relative m-6 px-4 sm:px-6 py-6 rounded-lg shadow-lg overflow-hidden">
-        <img 
-          src="/Sofa.png" 
-          className="w-full h-full object-fill rounded-lg" 
-          alt="sofa" />
+        <div className="w-full h-full overflow-hidden rounded-lg">
+  <div
+    className="flex transition-transform duration-700 ease-in-out"
+    style={{ transform: `translateX(-${index * 100}%)` }}
+  >
+    {images.map((src, i) => (
+      <img
+        key={i}
+        src={src}
+        alt="sofa"
+        className="w-full h-full object-fill flex-shrink-0"
+      />
+    ))}
+    
+  </div>
+</div>
+
 
         <div className="absolute inset-0 flex flex-col items-start justify-center text-left pl-15 text-black">
      <h2 className="text-5xl text-white md:text-6xl font-bold mb-4 drop-shadow-lg tracking-wide font-['Cormorant_Garamond']">
@@ -27,9 +54,13 @@ function Home() {
     Discover timeless furniture and curated décor designed to inspire 
     comfort and sophistication in every corner of your home.</p>
 
-          <button className="bg-white text-black px-6 py-2 rounded-lg transform transition duration-300 hover:scale-105 hover:bg-gray-300">
-             Explore Living Room
+          <button onClick={()=>navigate('/products')} className="bg-white text-black px-6 py-2 rounded-lg transform transition duration-300 hover:scale-105 hover:bg-gray-300">
+             Explore Collections
+   
           </button>
+          
+
+
 
         </div>
       </div>

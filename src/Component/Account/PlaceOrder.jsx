@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -16,11 +16,13 @@ import { useNavigate } from 'react-router-dom';
    });
 
 function PlaceOrder(){
+
+    const[data,setData]=useState()
     const navigate=useNavigate()
+
     useEffect(()=>{
      const data=JSON.parse(localStorage.getItem("logined"))
-     console.log(data);
-     
+     setData(data)
     },[])
 
     const {handleSubmit,register,formState:{errors}}=useForm({resolver:yupResolver(schema)})
@@ -43,7 +45,7 @@ function PlaceOrder(){
      }).then(()=>navigate('/products'))
    }
 
-   const user=JSON.parse(localStorage.getItem("logined"))
+ 
 
   return (
   <div className="min-h-screen flex items-start justify-center bg-gray-100 py-6">
@@ -122,22 +124,30 @@ function PlaceOrder(){
       <h3 className="text-xl font-bold text-gray-800">Order Summary</h3>
       <div className="space-y-2 text-gray-700">
          </div>
-        
+         <div className="flex justify-between  font-medium">
+          <span>Total Item</span>
+          <span>{data?.cart?.length}</span>
+        </div>
         <div className="flex justify-between">
           <span>Item Price</span>
-          <span>₹1500</span>
+          <span>${data?.cart?.reduce((s, i) => s + i.discount_price * i.quantity, 0)}</span>
         </div>
         <div className="flex justify-between">
           <span>Discount</span>
-          <span className="text-green-600">-₹200</span>
-        </div>
-        <div className="flex justify-between  font-medium">
-          <span>Total Item</span>
-          <span>4</span>
-        </div>
+          <span className="text-green-600">${data?.cart?.reduce((s, i) => s +(   i.quantity*i.price - i.discount_price * i.quantity), 0).toFixed(2)}</span>
+        </div>{console.log(data)
+        }
+        <div className="flex justify-between items-center font-medium py-2 border-b border-gray-200">
+  <span className="text-gray-700">Delivery Charge</span>
+  <div className="flex items-center gap-2">
+    <span className="line-through text-gray-400">$40</span>
+    <span className="text-green-600 font-semibold">Free</span>
+  </div>
+</div>
+
         <div className="flex justify-between font-bold border-t pt-2">
           <span>Total</span>
-          <span>₹1300</span>
+          <span>${data?.cart?.reduce((s, i) => s + i.discount_price * i.quantity, 0)}</span>
         </div>
       </div>
     </div>
