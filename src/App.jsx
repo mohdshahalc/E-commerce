@@ -20,11 +20,7 @@ import Vieworder from './Component/Account/Vieworder'
 
 
 function App() {
-  const [count, setCount] = useState(0)
    const location = useLocation();
-   
-   
-
   return (
     <>
       <NavBar />

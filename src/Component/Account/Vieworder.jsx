@@ -9,7 +9,7 @@ function Vieworder() {
       setOrder(user.order)
     },[])
   return (
-   <div className="h-screen max-w-3xl mx-auto px-4 pt-4">
+   <div className="min-h-screen max-w-3xl mx-auto px-4 pt-4">
   {order.length==0?(
     <div>
       <h1>You order nothing</h1>

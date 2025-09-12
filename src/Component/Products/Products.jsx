@@ -6,13 +6,14 @@ function Products() {
       const[products,setProducts]=useState([])
       const[search,setSearch]=useState("")
       const navigate=useNavigate()
-
+      
     useEffect(()=>{
         fetch(`https://furniture-api.fly.dev/v1/products?limit=20`)
   .then(response => response.json())
   .then(data => setProducts(data.data))
   .catch(error => console.error('Error:', error));
 },[])
+
    const filteredProducts = products.filter((item) =>
   item.name.toLowerCase().includes((search ?? "").toLowerCase()));
 
@@ -27,8 +28,6 @@ function Products() {
 //       .catch(console.error);
 //   }
 // }, []);
-
-
 
 
     if (products.length === 0) {
@@ -129,14 +128,9 @@ function Products() {
   </div>
 </div>
 
-
-
-
-
-
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
     {filteredProducts.map((item, key) => (
-      <div key={key} className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col"
+      <div key={key} className="bg-white  rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col"
       onClick={()=>navigate(`/ProductDetails/${item.id}`)} >
 
 <div className="w-full h-60 overflow-hidden rounded-t-2xl">

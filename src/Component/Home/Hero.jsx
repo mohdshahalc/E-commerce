@@ -10,7 +10,7 @@ function Hero() {
         alt="Luxury Home"
       />
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white bg-black/40 space-y-4">
-        <h1 className="text-7xl font-bold font-['Cormorant_Garamond']">Luxury Home</h1>
+        <h1 className="text-7xl font-bold font-['Cormorant_Garamond']">  Discover the Art of <br /> Luxury Living </h1>
         <p className="text-xl font-['Cormorant_Garamond']">Discover premium collections at the best price</p>
         <NavLink to='/products' className="bg-white text-black px-6 py-2 rounded-lg transform transition duration-300 hover:scale-105 hover:bg-gray-300">
          Explore the collections

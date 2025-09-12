@@ -52,7 +52,7 @@ function ProductDetails() {
   localStorage.setItem("users",JSON.stringify(update))
     usingRerender(1);
   Swal.fire({
-  text: "Item added to wishlist!",
+  text: "Item added to cart!",
   icon: "success",
   toast: true,
   position: "top-end",
